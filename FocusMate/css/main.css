@@ -1,0 +1,161 @@
+/* Custom styles to complement Tailwind CSS */
+
+/* Smooth transitions for section visibility */
+.section {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.section.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Navigation button styles */
+.nav-btn {
+    @apply px-4 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200;
+}
+
+.nav-btn.active {
+    @apply bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400;
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-slide-in {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+/* Focus state styles */
+button:focus, 
+input:focus, 
+textarea:focus {
+    @apply outline-none ring-2 ring-primary-500 ring-opacity-50;
+}
+
+/* Custom styles for the music player */
+.music-player-progress {
+    @apply w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.music-player-progress-bar {
+    @apply h-full bg-primary-500 transition-all duration-300;
+}
+
+/* Emotional check-in emoji buttons */
+.emoji-btn {
+    @apply transition-transform duration-200 hover:scale-110 focus:scale-110;
+}
+
+/* Custom card hover effects */
+.hover-card {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+}
+
+/* Progress bar animations */
+.progress-bar {
+    @apply relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+    @apply absolute top-0 left-0 h-full bg-primary-500 transition-all duration-500;
+}
+
+/* Toast notifications */
+.toast {
+    @apply fixed bottom-4 right-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 transform transition-all duration-300;
+}
+
+.toast.hidden {
+    @apply translate-y-full opacity-0;
+}
+
+/* Meditation session card styles */
+.meditation-card {
+    @apply relative overflow-hidden rounded-lg transition-all duration-300 hover:shadow-xl;
+}
+
+.meditation-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-transparent to-black opacity-20 transition-opacity duration-300;
+}
+
+.meditation-card:hover::before {
+    @apply opacity-30;
+}
+
+/* Custom switch toggle */
+.switch {
+    @apply relative inline-block w-12 h-6;
+}
+
+.switch input {
+    @apply opacity-0 w-0 h-0;
+}
+
+.switch-slider {
+    @apply absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 dark:bg-gray-600 transition-all duration-300 rounded-full;
+}
+
+.switch-slider:before {
+    content: '';
+    @apply absolute h-4 w-4 left-1 bottom-1 bg-white transition-all duration-300 rounded-full;
+}
+
+input:checked + .switch-slider {
+    @apply bg-primary-500;
+}
+
+input:checked + .switch-slider:before {
+    @apply transform translate-x-6;
+}
