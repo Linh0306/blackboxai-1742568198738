@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusMate - Your ADHD-Friendly Productivity Companion</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="favicon.ico" alt="FocusMate Logo" class="w-8 h-8">
+                    <h1 class="text-xl font-bold">FocusMate</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="darkModeToggle" class="nav-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="relative">
+                        <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=Felix" alt="Profile" class="w-8 h-8 rounded-full cursor-pointer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Navigation -->
+    <div class="fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-800 shadow-lg p-4">
+        <div class="space-y-2">
+            <button data-section="dashboard" class="nav-btn active w-full text-left">
+                <i class="fas fa-home w-6"></i> Dashboard
+            </button>
+            <button data-section="activity" class="nav-btn w-full text-left">
+                <i class="fas fa-chart-line w-6"></i> Activity Tracking
+            </button>
+            <button data-section="planner" class="nav-btn w-full text-left">
+                <i class="fas fa-calendar w-6"></i> Smart Planner
+            </button>
+            <button data-section="music" class="nav-btn w-full text-left">
+                <i class="fas fa-music w-6"></i> Focus Music
+            </button>
+            <button data-section="diet" class="nav-btn w-full text-left">
+                <i class="fas fa-utensils w-6"></i> Diet Tips
+            </button>
+            <button data-section="sleep" class="nav-btn w-full text-left">
+                <i class="fas fa-moon w-6"></i> Sleep Management
+            </button>
+            <button data-section="mindfulness" class="nav-btn w-full text-left">
+                <i class="fas fa-spa w-6"></i> Mindfulness
+            </button>
+            <button data-section="community" class="nav-btn w-full text-left">
+                <i class="fas fa-users w-6"></i> Community
+            </button>
+            <button data-section="forecast" class="nav-btn w-full text-left">
+                <i class="fas fa-brain w-6"></i> Focus Forecast
+            </button>
+            <button data-section="mood" class="nav-btn w-full text-left">
+                <i class="fas fa-smile w-6"></i> Emotional Check-In
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="ml-64 pt-16 p-6">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Welcome Card -->
+                <div class="col-span-full bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover-card">
+                    <h2 class="text-2xl font-bold mb-4">Welcome back, Felix! 👋</h2>
+                    <p class="text-gray-600 dark:text-gray-400">"Success is not final, failure is not fatal: it's the courage to continue that counts."</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover-card">
+                    <h3 class="text-lg font-semibold mb-4">Today's Progress</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Tasks Completed</span>
+                                <span>4/6</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 66%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Focus Time</span>
+                                <span>2h 30m</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Focus -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover-card">
+                    <h3 class="text-lg font-semibold mb-4">Current Focus</h3>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold mb-2">25:00</div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Project Research</p>
+                        <button class="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">
+                            <i class="fas fa-play mr-2"></i>Start Focus
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Next Up -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover-card">
+                    <h3 class="text-lg font-semibold mb-4">Next Up</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <i class="fas fa-circle text-xs text-primary-500 mr-2"></i>
+                            <span>Team Meeting (10:00 AM)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-circle text-xs text-primary-500 mr-2"></i>
+                            <span>Project Review (11:30 AM)</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-circle text-xs text-primary-500 mr-2"></i>
+                            <span>Lunch Break (12:30 PM)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Tracking Section -->
+        <section id="activity" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Activity Tracking</h2>
+                    <div class="space-x-2">
+                        <button class="nav-btn">
+                            <i class="fas fa-plus mr-2"></i>Add Task
+                        </button>
+                        <button class="nav-btn">
+                            <i class="fas fa-coffee mr-2"></i>Log Break
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Activity Timeline -->
+                <div class="relative">
+                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="space-y-6 ml-8">
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-primary-500 rounded-full"></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold">Project Research</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">9:00 AM - 10:30 AM</span>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400 mt-2">Completed initial research phase</p>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -left-10 w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold">Break</span>
+                                    <span class="text-sm text-gray-600 dark:text-gray-400">10:30 AM - 10:45 AM</span>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400 mt-2">Quick refreshment break</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Planner Section -->
+        <section id="planner" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Smart Planner</h2>
+                <div class="grid grid-cols-7 gap-4 mb-4">
+                    <div class="text-center font-semibold">Sun</div>
+                    <div class="text-center font-semibold">Mon</div>
+                    <div class="text-center font-semibold">Tue</div>
+                    <div class="text-center font-semibold">Wed</div>
+                    <div class="text-center font-semibold">Thu</div>
+                    <div class="text-center font-semibold">Fri</div>
+                    <div class="text-center font-semibold">Sat</div>
+                </div>
+                <div class="grid grid-cols-7 gap-4">
+                    <!-- Calendar days -->
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">1</div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">2</div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">3</div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2 bg-primary-50 dark:bg-primary-900">
+                        4
+                        <div class="text-xs mt-1 text-primary-600 dark:text-primary-400">2 Tasks</div>
+                    </div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">5</div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">6</div>
+                    <div class="h-24 border border-gray-200 dark:border-gray-700 rounded-lg p-2">7</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Focus Music Section -->
+        <section id="music" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Focus Music</h2>
+                
+                <!-- Current Track -->
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+                    <div class="flex items-center space-x-4">
+                        <img src="https://picsum.photos/100/100" alt="Album Art" class="w-16 h-16 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Deep Focus</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Ambient Sounds</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button class="text-xl"><i class="fas fa-step-backward"></i></button>
+                            <button class="text-2xl"><i class="fas fa-play"></i></button>
+                            <button class="text-xl"><i class="fas fa-step-forward"></i></button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="music-player-progress">
+                            <div class="music-player-progress-bar" style="width: 30%"></div>
+                        </div>
+                        <div class="flex justify-between mt-1 text-sm">
+                            <span>1:30</span>
+                            <span>5:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Playlists -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <h3 class="font-semibold">Deep Focus</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">For intense concentration</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <h3 class="font-semibold">Study Vibes</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Perfect for learning</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <h3 class="font-semibold">Chill Work</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Relaxed productivity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diet Tips Section -->
+        <section id="diet" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">ADHD-Friendly Diet Tips</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Daily Tips -->
+                    <div class="space-y-4">
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">Protein-Rich Breakfast</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Start your day with eggs, Greek yogurt, or nuts for sustained energy.</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">Omega-3 Foods</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Include salmon, walnuts, or chia seeds for better brain function.</p>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <h3 class="font-semibold mb-2">Hydration Reminder</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Drink water regularly - dehydration can affect focus.</p>
+                        </div>
+                    </div>
+
+                    <!-- Meal Planner -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="font-semibold mb-4">Today's Meal Plan</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-sun text-yellow-500 w-6"></i>
+                                <span class="font-medium">Breakfast:</span>
+                                <span class="ml-2">Oatmeal with berries and nuts</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-cloud-sun text-orange-500 w-6"></i>
+                                <span class="font-medium">Lunch:</span>
+                                <span class="ml-2">Grilled chicken salad</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-moon text-blue-500 w-6"></i>
+                                <span class="font-medium">Dinner:</span>
+                                <span class="ml-2">Salmon with quinoa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sleep Management Section -->
+        <section id="sleep" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Sleep Management</h2>
+                
+                <!-- Sleep Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+                        <h3 class="text-lg font-semibold mb-2">Average Sleep</h3>
+                        <p class="text-3xl font-bold text-primary-500">7.5h</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+                        <h3 class="text-lg font-semibold mb-2">Sleep Quality</h3>
+                        <p class="text-3xl font-bold text-primary-500">85%</p>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 text-center">
+                        <h3 class="text-lg font-semibold mb-2">Bedtime</h3>
+                        <p class="text-3xl font-bold text-primary-500">10:30 PM</p>
+                    </div>
+                </div>
+
+                <!-- Sleep Tips -->
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold mb-4">Sleep Tips</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-moon text-primary-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium">Consistent Schedule</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Try to go to bed and wake up at the same time daily</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-mobile-alt text-primary-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium">Screen Time</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Avoid screens 1 hour before bedtime</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-coffee text-primary-500 mt-1 mr-3"></i>
+                            <div>
+                                <h4 class="font-medium">Caffeine Intake</h4>
+                                <p class="text-gray-600 dark:text-gray-400">Limit caffeine after 2 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mindfulness Section -->
+        <section id="mindfulness" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Mindfulness & Meditation</h2>
+                
+                <!-- Featured Sessions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="meditation-card bg-primary-100 dark:bg-primary-900 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2">Quick Focus</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">5-minute breathing exercise</p>
+                        <button class="bg-white dark:bg-gray-800 text-primary-500 px-4 py-2 rounded-lg">
+                            <i class="fas fa-play mr-2"></i>Start
+                        </button>
+                    </div>
+                    <div class="meditation-card bg-primary-100 dark:bg-primary-900 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2">Stress Relief</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">10-minute guided meditation</p>
+                        <button class="bg-white dark:bg-gray-800 text-primary-500 px-4 py-2 rounded-lg">
+                            <i class="fas fa-play mr-2"></i>Start
+                        </button>
+                    </div>
+                    <div class="meditation-card bg-primary-100 dark:bg-primary-900 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2">Body Scan</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">15-minute relaxation</p>
+                        <button class="bg-white dark:bg-gray-800 text-primary-500 px-4 py-2 rounded-lg">
+                            <i class="fas fa-play mr-2"></i>Start
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Community Support</h2>
+                
+                <!-- Discussion Threads -->
+                <div class="space-y-4">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Tips for Morning Focus</h3>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">2h ago</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-2">Share your morning routines and tips...</p>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <span><i class="fas fa-comment mr-1"></i>12 replies</span>
+                            <span><i class="fas fa-heart mr-1"></i>24 likes</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold">Meditation Success Stories</h3>
+                            <span class="text-sm text-gray-600 dark:text-gray-400">5h ago</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-2">How meditation has helped with ADHD...</p>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <span><i class="fas fa-comment mr-1"></i>8 replies</span>
+                            <span><i class="fas fa-heart mr-1"></i>16 likes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Focus Forecast Section -->
+        <section id="forecast" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Focus Forecast</h2>
+                
+                <!-- Today's Forecast -->
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Today's Focus Pattern</h3>
+                    <div class="h-40 relative">
+                        <!-- Placeholder for focus level graph -->
+                        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-200 to-transparent rounded"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-2">
+                        <span>6 AM</span>
+                        <span>12 PM</span>
+                        <span>6 PM</span>
+                        <span>12 AM</span>
+                    </div>
+                </div>
+
+                <!-- Peak Focus Times -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="font-semibold mb-4">Peak Focus Times</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-star text-yellow-500 mr-2"></i>
+                                <span>9:00 AM - 11:00 AM</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-star text-yellow-500 mr-2"></i>
+                                <span>2:00 PM - 4:00 PM</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h3 class="font-semibold mb-4">Suggested Activities</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fas fa-tasks text-primary-500 mr-2"></i>
+                                <span>Deep Work: 9:00 AM</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-book text-primary-500 mr-2"></i>
+                                <span>Learning: 2:00 PM</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emotional Check-In Section -->
+        <section id="mood" class="section hidden">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6">Emotional Check-In</h2>
+                
+                <!-- Current Mood Selection -->
+                <div class="text-center mb-8">
+                    <h3 class="text-xl font-semibold mb-4">How are you feeling right now?</h3>
+                    <div class="grid grid-cols-5 gap-4">
+                        <button class="emoji-btn p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-4xl">😊</span>
+                            <span class="block mt-2">Great</span>
+                        </button>
+                        <button class="emoji-btn p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-4xl">🙂</span>
+                            <span class="block mt-2">Good</span>
+                        </button>
+                        <button class="emoji-btn p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-4xl">😐</span>
+                            <span class="block mt-2">Okay</span>
+                        </button>
+                        <button class="emoji-btn p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-4xl">😴</span>
+                            <span class="block mt-2">Tired</span>
+                        </button>
+                        <button class="emoji-btn p-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                            <span class="text-4xl">😣</span>
+                            <span class="block mt-2">Stressed</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mood History -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Your Mood History</h3>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-3">😊</span>
+                                    <span>Great</span>
+                                </div>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Today 9:00 AM</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-3">😐</span>
+                                    <span>Okay</span>
+                                </div>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Yesterday 2:30 PM</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-2xl mr-3">🙂</span>
+                                    <span>Good</span>
+                                </div>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Yesterday 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Insights -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Insights</h3>
+                    <div class="bg-primary-50 dark:bg-primary-900 rounded-lg p-4">
+                        <p class="mb-2"><i class="fas fa-chart-line mr-2"></i>Your mood tends to be best in the morning</p>
+                        <p class="mb-2"><i class="fas fa-lightbulb mr-2"></i>Consider scheduling important tasks between 9-11 AM</p>
+                        <p><i class="fas fa-heart mr-2"></i>You've been managing stress well this week</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
